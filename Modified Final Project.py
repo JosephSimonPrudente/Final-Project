@@ -57,3 +57,26 @@ def reset_game():
     score_to_beat_label.configure(text=f"Score to Beat: {score_to_beat}")
     gameinstruction.configure(text='Type the Word and hit enter button')
     wordentry.config(state='normal') # enable the Entry widget
+
+# Function to display the record board
+def show_record_board():
+    # Create a new window
+    record_window = Toplevel(root)
+    record_window.geometry('400x400+500+200')
+    record_window.title('Record Board')
+    
+    # Create a label for the title
+    title_label = Label(record_window, text='Record Board', font=('arial', 20, 'bold'))
+    title_label.pack(pady=10)
+    
+    # Create a table for the scores
+    score_table = Text(record_window, font=('arial', 14), width=30, height=10)
+    score_table.insert(END, 'Try\tMisses\tScore\n')
+
+    # Loop through each item in the score list and add it to the table
+    for i, (score, miss) in enumerate(score_list):
+        score_table.insert(END, f'{score}\t{miss}\t{score_to_beat}\n')
+    score_table.pack(pady=10)
+
+# Keep track of the scores in a list
+score_list = []
