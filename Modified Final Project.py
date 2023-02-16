@@ -25,3 +25,22 @@ def slider():
     count += 1
     fontlabel.configure(text=sliderwords)
     fontlabel.after(150, slider)
+
+# Function to handle the timer
+def time():
+    global timer, score, miss, score_to_beat
+    if timer > 11:
+        pass
+    else:
+        timerlabelcount.configure(fg='red')
+    if timer > 0:
+        timer -= 1
+        timerlabelcount.configure(text=timer)
+        timerlabelcount.after(1000, time)
+    else:
+        gameinstruction.configure(text='Hit = {} | Miss = {} | Score to Beat = {}'.format(score, miss, score_to_beat))
+      
+        wordentry.config(state='disabled') # disable the Entry widget
+        if score > score_to_beat:
+            score_to_beat = score
+            score_to_beat_label.configure(text=f"Score to Beat: {score_to_beat}")
