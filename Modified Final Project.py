@@ -80,3 +80,27 @@ def show_record_board():
 
 # Keep track of the scores in a list
 score_list = []
+
+# Function to start the game
+def startgame(event):
+    global score, miss, score_to_beat, score_list
+    if timer == 60:
+        time()
+    gameinstruction.configure(text='')
+    startlabel.configure(text='')
+    
+    if wordentry.get() == wordlabel['text']:
+        score += 1
+        scorelabelcount.configure(text=score)
+        if score > score_to_beat:
+            score_to_beat = score
+            score_to_beat_label.configure(text=f"Score to Beat: {score_to_beat}")
+    else:
+        miss += 1
+        
+    # Add the score and miss count to the score list for each attempt
+    score_list.append((score, miss))
+        
+    random.shuffle(words)
+    wordlabel.configure(text=words[0])
+    wordentry.delete(0, END)
