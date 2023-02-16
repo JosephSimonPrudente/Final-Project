@@ -13,3 +13,15 @@ timer = 60
 count = 0
 sliderwords = ''
 score_to_beat = 0
+
+# Function to animate the sliding text
+def slider():
+    global count, sliderwords
+    text = 'Speed Typing Game'
+    if count >= len(text):
+        count = 0
+        sliderwords = ''
+    sliderwords += text[count]
+    count += 1
+    fontlabel.configure(text=sliderwords)
+    fontlabel.after(150, slider)
