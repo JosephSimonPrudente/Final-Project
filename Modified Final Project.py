@@ -44,3 +44,16 @@ def time():
         if score > score_to_beat:
             score_to_beat = score
             score_to_beat_label.configure(text=f"Score to Beat: {score_to_beat}")
+
+# Function to reset game
+def reset_game():
+    global timer, score, miss
+    score = 0
+    miss = 0
+    timer = 60
+    timerlabelcount.configure(text=timer)
+    wordlabel.configure(text=words[0])
+    scorelabelcount.configure(text=score)
+    score_to_beat_label.configure(text=f"Score to Beat: {score_to_beat}")
+    gameinstruction.configure(text='Type the Word and hit enter button')
+    wordentry.config(state='normal') # enable the Entry widget
