@@ -1,74 +1,119 @@
-from time import time # record the time 
+from words import words
 
-# calculate the accuracy of input prompt
-def tperror(prompt):
-    global inwords 
+def slider():
+    global count,sliderwords
+    text='Speed Typing App'
+    if count>= len(text):
+        count =0
+        sliderwords =''
+    sliderwords += text[count]
+    count +=1
+    fontlabel.configure(text=sliderwords)
+    fontlabel.after(150,slider)
 
-    words = prompt.split()
-    errors = 0
 
-    for i in range (len (inwords)):
-        if i in (0, len(inwords)-1):
-            if inwords[i] == words [i]:
-                continue
-            else:
-                errors = errors + 1
-        else: 
-            if inwords[i] == words[i]:
-                if (inwords[i+1] == words[i+1]) & (inwords[i-1] == words[i-1]):
-                    continue
-                else:
-                    errors += 1 
-            else:
-                errors += 1
-    return errors
+def time():
+    global timer,score,miss
+    if timer>11:
+        pass
+    else:
+        timerlabelcount.configure(fg='red')
+    if timer>0:
+        timer -=1
+        timerlabelcount.configure(text=timer)
+        timerlabelcount.after(1000,time)
+    else:
+        gameinstruction.configure(text='Hit = {} | Miss = {} | Total Score = {}'
+                                  .format(score,miss,score-miss))
+        rr= messagebox.askretrycancel('Notification','Wanna Play Again!!!!')
+        if rr==True:
+            score=0
+            miss=0
+            timer=60
+            timerlabelcount.configure(text=timer)
+            wordlabel.configure(text=words[0])
+            scorelabelcount.configure(text=score)
+            wordentry.delete(0, END)
 
-# calculate the speed of typing words per minute 
-def speed(inprompt, stime, etime):
-    global time 
-    global inwords 
+def startgame(event):
+    global score, miss
+    if timer==60:
+        time()
+    gameinstruction.configure(text='')
+    startlabel.configure(text='')
+    if wordentry.get()== wordlabel['text']:
+        score +=1
+        scorelabelcount.configure(text=score)
+    else:
+        miss +=1
+    random.shuffle(words)
+    wordlabel.configure(text=words[0])
+    wordentry.delete(0,END)
 
-    inwords = inprompt.split()
-    twords = len(inwords)
-    speed = twords / time 
+from tkinter import *
+import random
+from tkinter import messagebox
 
-    return speed 
+###############################################
+root= Tk()
+root.geometry('800x600+400+100')
+root.title('Speed Typing App')
 
-# calculate hte total elapsed time 
-def elapsedtime(stime, etime):
-    time = etime - stime # etime is the end time and stime is the start time 
-    return time 
 
-# this was the paragraph which you have you have to type to check your speed
-if __name__ == '__main__':
-    prompt = "We may easily improve our writing skills by using a random paragraph generator. One of the best way to develop writing skills and English is by writing or reading. This tool is simple to use and you can use it anywhere anytime."
-    print()
-    print("***************************************************TYPE THIS******************************************")
-    print()
-    print(prompt)
+##############################################
 
-#Checking to input   
-    print()
-    input("*****Press enter when your ready to check your speed*****:")
-    print()
+score=0
+miss=0
+timer=60
+count=0
+sliderwords=''
 
-# recording time for input 
-    stime = time()
-    inprompt = input()
-    etime = time()
+#################################################################
+fontlabel=Label(root,text='',font=('airal',25,
+                'italic bold'),fg='purple',width=40)
+fontlabel.place(x=10,y=10)
+slider()
 
-# collect all the imformation returned by functions
-    time = round(elapsedtime(stime,etime),2)
-    speed = speed(inprompt,stime,etime)
-    errors = tperror(prompt)
+startlabel=Label(root,text='Start Typing',font=('airal',30,
+                  'italic bold'),bg='black',fg='white')
+startlabel.place(x=275,y=50)
 
-# printing all the required data to see result
-    print("=================================================================")
-    print("total time elapsed:", time ,"Seconds")
-    print("=================================================================")
-    print("Your average typing speed was ", speed , "words per minute (w/m)")
-    print("=================================================================")
-    print("with the total of ", errors, "errors")
+random.shuffle(words)
+wordlabel=Label(root,text=words[0],font=('airal',45,
+                'italic bold'),fg='green')
+wordlabel.place(x=350,y=240)
 
-#https://www.youtube.com/watch?v=AkKFLes-_VI&list=PLpp8-k7G_6Y3Wj1suZQ-9lATFzFuGw93x&index=8
 
+scorelabel=Label(root,text='Your Score:',font=('arial',25,
+                'italic bold'),fg='red')
+scorelabel.place(x=10,y=100)
+
+scorelabelcount=Label(root,text=score,font=('arial',25,
+                'italic bold'),fg='blue')
+scorelabelcount.place(x=150,y=180)
+
+
+
+timerlabel=Label(root,text='Time Left:',font=('arial',25,
+                'italic bold'),fg='red')
+timerlabel.place(x=600,y=100)
+
+timerlabelcount=Label(root,text=timer,font=('arial',25,
+                'italic bold'),fg='blue')
+timerlabelcount.place(x=600,y=180)
+
+
+
+gameinstruction= Label(root,text='Type the Word and hit enter button',
+                       font=('arial',25,'italic bold'),fg='grey')
+gameinstruction.place(x=150,y=500)
+
+########################################################################
+
+wordentry= Entry(root,font=('airal',25,'italic bold'),bd=10,justify='center')
+wordentry.place(x=250,y=330)
+wordentry.focus_set()
+
+#################################################################
+root.bind('<Return>',startgame)
+root.mainloop()
