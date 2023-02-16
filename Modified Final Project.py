@@ -104,3 +104,62 @@ def startgame(event):
     random.shuffle(words)
     wordlabel.configure(text=words[0])
     wordentry.delete(0, END)
+
+# Labels and UI elements
+fontlabel = Label(root, text='', font=('arial', 25, 'italic bold'), fg='purple', bg='black', width=40)
+fontlabel.place(x=10, y=10)
+slider()
+
+startlabel=Label(root,text='Start Typing',font=('airal',30,
+                  'italic bold'),bg='black',fg='white')
+startlabel.place(x=275,y=50)
+
+random.shuffle(words)
+wordlabel=Label(root,text=words[0],font=('airal',45,
+                'italic bold'),fg='green' ,bg='black')
+wordlabel.place(x=300,y=240)
+
+# Add a button to show the record board
+record_button = Button(root, text='Record Board', font=('arial', 20, 'bold'), bg='green', fg='white', command=show_record_board)
+record_button.place(x=570, y=420)
+# Add a button to show the retry and exit
+retry_button = Button(root, text='Retry', font=('arial', 20, 'bold'), bg='blue', fg='white', command=reset_game)
+retry_button.place(x=330, y=420)
+exit_button = Button(root, text='Exit', font=('arial', 20, 'bold'), bg='red', fg='white', command=root.destroy)
+exit_button.place(x=450, y=420)
+
+scorelabel=Label(root,text='Your Score:',font=('arial',25,
+                'italic bold'),fg='blue' ,bg='black')
+scorelabel.place(x=10,y=100)
+
+scorelabelcount=Label(root,text=score,font=('arial',25,
+                'italic bold'),fg='blue' ,bg='black')
+scorelabelcount.place(x=100,y=180)
+
+score_to_beat_label = Label(root, text=f"Score to Beat: {score_to_beat}", font=('arial', 25, 'italic bold'), fg='purple' ,bg='black')
+score_to_beat_label.place(x=270, y=100)
+
+
+timerlabel=Label(root,text='Time Left:',font=('arial',25,
+                'italic bold'),fg='red' ,bg='black')
+timerlabel.place(x=600,y=100)
+
+timerlabelcount=Label(root,text=timer,font=('arial',25,
+                'italic bold'),fg='red' ,bg='black')
+timerlabelcount.place(x=660,y=180)
+
+
+
+gameinstruction= Label(root,text='Type the Word and hit enter button',
+                       font=('arial',25,'italic bold'),fg='grey' ,bg='black')
+gameinstruction.place(x=150,y=500)
+
+########################################################################
+
+wordentry= Entry(root,font=('airal',25,'italic bold'),bd=10,justify='center' )
+wordentry.place(x=210,y=330)
+wordentry.focus_set()
+
+#################################################################
+root.bind('<Return>',startgame)
+root.mainloop()
